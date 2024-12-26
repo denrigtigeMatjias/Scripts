@@ -1,4 +1,5 @@
-local library = loadstring(game:HttpGet(('https://raw.githubusercontent.com/AikaV3rm/UiLib/master/Lib.lua')))()
+-- Welcome to AWP!
+local library = loadstring(game:HttpGet(('https://raw.githubusercontent.com/bloodball/-back-ups-for-libs/main/wall%20v3')))()
 
 local WizLeg = library:CreateWindow("Wizard Legends")
 local Upgrade = WizLeg:CreateFolder("Upgrade")
@@ -8,7 +9,6 @@ local Other = WizLeg:CreateFolder("Other")
 local Credits = WizLeg:CreateFolder("Credits")
 
 -- Upgrade
-
 Upgrade:Button("Upgrade Mind",function()
     game:GetService("ReplicatedStorage").UpgradeStatLevel:InvokeServer("BackpackLevel")
 end)
@@ -47,28 +47,28 @@ end)
 
 local mindtoggle = false
 Upgrade:Toggle("Mind",function(bool5)
-mindtoggle = bool5
+    mindtoggle = bool5
 end)
 
 spawn(function()
-while wait() do
-if manatoggle then
-    game:GetService("ReplicatedStorage").UpgradeAllStatLevel:InvokeServer("BackpackLevel")
-end
-end
+    while wait() do
+        if manatoggle then
+            game:GetService("ReplicatedStorage").UpgradeAllStatLevel:InvokeServer("BackpackLevel")
+        end
+    end
 end)
 
 local wandtoggle = false
 Upgrade:Toggle("Wand",function(bool6)
-wandtoggle = bool6
+    wandtoggle = bool6
 end)
 
 spawn(function()
-while wait() do
-if wandtoggle then
-    game:GetService("ReplicatedStorage").UpgradeAllStatLevel:InvokeServer("WandLevel")
-end
-end
+    while wait() do
+        if wandtoggle then
+            game:GetService("ReplicatedStorage").UpgradeAllStatLevel:InvokeServer("WandLevel")
+        end
+    end
 end)
 
 local cloaktoggle = false
@@ -77,27 +77,31 @@ cloaktoggle = bool7
 end)
 
 spawn(function()
-while wait() do
-if cloaktoggle then
-    game:GetService("ReplicatedStorage").UpgradeAllStatLevel:InvokeServer("CloakLevel")
-end
-end
+    while wait() do
+        if cloaktoggle then
+            game:GetService("ReplicatedStorage").UpgradeAllStatLevel:InvokeServer("CloakLevel")
+        end
+    end
 end)
 
 local cresttoggle = false
 Upgrade:Toggle("Crest",function(bool8)
-cresttoggle = bool8
+    cresttoggle = bool8
 end)
 
 spawn(function()
-while wait() do
-if cresttoggle then
-    game:GetService("ReplicatedStorage").UpgradeAllStatLevel:InvokeServer("CollectorLevel")
-end
-end
+    while wait() do
+        if cresttoggle then
+            game:GetService("ReplicatedStorage").UpgradeAllStatLevel:InvokeServer("CollectorLevel")
+        end
+    end
 end)
 
-Eggs:Label("Area 1",Color3.fromRGB(38,38,38),Color3.fromRGB(0,216,111))
+Eggs:Label("Area 1",{
+    TextSize = 25; -- Self Explaining
+    TextColor = Color3.fromRGB(0,216,111);
+    BgColor = Color3.fromRGB(38,38,38);
+})
 
 Eggs:Button("Rat Egg",function()
     game:GetService("ReplicatedStorage").PetStoreRoll:InvokeServer("VillageRatShop")
@@ -150,7 +154,11 @@ end
 end
 end)
 
-Eggs:Label("Area 2",Color3.fromRGB(38,38,38),Color3.fromRGB(0,216,111))
+Eggs:Label("Area 2",{
+    TextSize = 25; -- Self Explaining
+    TextColor = Color3.fromRGB(0,216,111);
+    BgColor = Color3.fromRGB(38,38,38);
+})
 
 Codes:Button("Use all codes",function()
     game:GetService("ReplicatedStorage").PromoCodeRequest:InvokeServer("magicalcodes")
@@ -182,4 +190,8 @@ Other:Button("   Tp all mana to you",function()
     end
 end)
 
-Credits:Label("Made by Prudin#6667",Color3.fromRGB(38,38,38),Color3.fromRGB(0,216,111))
+Credits:Label("Made by .matjias",{
+    TextSize = 25; -- Self Explaining
+    TextColor = Color3.fromRGB(0,216,111);
+    BgColor = Color3.fromRGB(38,38,38);
+})
