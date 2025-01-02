@@ -1,0 +1,123 @@
+local Fluent = loadstring(game:HttpGet("https://raw.githubusercontent.com/denrigtigeMatjias/FluentBackup/refs/heads/main/main.lua"))()
+local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/denrigtigeMatjias/FluentBackup/refs/heads/main/SaveManager.lua"))()
+local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/denrigtigeMatjias/FluentBackup/refs/heads/main/InterfaceManager.lua"))()
+
+local Window = Fluent:CreateWindow({
+    Title = game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name,
+    SubTitle = "by .matjias",
+    TabWidth = 160,
+    Size = UDim2.fromOffset(580, 460),
+    Acrylic = true,
+    Theme = "Darker",
+    MinimizeKey = Enum.KeyCode.LeftControl
+})
+
+local Tabs = {
+    Main = Window:AddTab({ Title = "Main", Icon = "" }),
+    Settings = Window:AddTab({ Title = "Settings", Icon = "settings" })
+}
+
+local Options = Fluent.Options
+
+do
+    local Generator3 = Tabs.Main:AddSection("Generator 3")
+
+    local boxes = true
+    local small_boxes = true
+    local golden_boxes = true
+    local diamond_boxes = true
+
+    local function handleBoxMovement(boxType, furnace)
+        if boxType and furnace then
+            local part = boxType:FindFirstChild("Part")
+            if part and not part.Anchored then
+                part.Position = furnace.Position
+            elseif not part then
+                print("Part not found in " .. boxType.Name .. "!")
+            end
+        else
+            print(boxType and boxType.Name .. " or Furnace missing!")
+        end
+    end
+
+    local MultiDropdown = Generator3:AddDropdown("MultiDropdown", {
+        Title = "Select Boxes",
+        Description = "Choose the boxes to autofarm.",
+        Values = {"Boxes", "SmallBoxes", "GoldenBoxes", "DiamondBoxes"},
+        Multi = true,
+        Default = {"Boxes", "SmallBoxes", "GoldenBoxes", "DiamondBoxes"},
+    })
+
+    MultiDropdown:OnChanged(function(Value)
+        for boxType, isSelected in next, Value do
+            if isSelected then
+                if boxType == "Boxes" then
+                    boxes = true
+                elseif boxType == "SmallBoxes" then
+                    small_boxes = true
+                elseif boxType == "GoldenBoxes" then
+                    golden_boxes = true
+                elseif boxType == "DiamondBoxes" then
+                    diamond_boxes = true
+                end
+            end
+        end
+
+        local selectedBoxes = {}
+        for boxType, isSelected in next, Value do
+            if isSelected then
+                table.insert(selectedBoxes, boxType)
+            end
+        end
+        print("Selected boxes:", table.concat(selectedBoxes, ", "))
+    end)
+
+    task.spawn(function()
+        while wait(0.1) do
+            local generator3 = game:GetService("Workspace"):FindFirstChild("Generators") and game.Workspace.Generators:FindFirstChild("Generator3")
+    
+            if generator3 and generator3:FindFirstChild("Generator3Parts") then
+                local generatorParts = generator3.Generator3Parts
+                local boxes = generatorParts:FindFirstChild("Boxes")
+                local smallBoxes = generatorParts:FindFirstChild("SmallBoxes")
+                local goldenBoxes = generatorParts:FindFirstChild("GoldenBoxes")
+                local diamondBoxes = generatorParts:FindFirstChild("DiamondBoxes")
+                local furnace = generatorParts:FindFirstChild("Furnace")
+    
+                if boxes then
+                    handleBoxMovement(boxes, furnace)
+                end
+                if small_boxes then
+                    handleBoxMovement(smallBoxes, furnace)
+                end
+                if golden_boxes then
+                    handleBoxMovement(goldenBoxes, furnace)
+                end
+                if diamond_boxes then
+                    handleBoxMovement(diamondBoxes, furnace)
+                end
+            end
+        end
+    end)
+end
+
+SaveManager:SetLibrary(Fluent)
+InterfaceManager:SetLibrary(Fluent)
+
+SaveManager:IgnoreThemeSettings()
+
+InterfaceManager:SetFolder("MatjiasScriptHub")
+SaveManager:SetFolder("MatjiasScriptHub/Generator-Incremental")
+
+InterfaceManager:BuildInterfaceSection(Tabs.Settings)
+SaveManager:BuildConfigSection(Tabs.Settings)
+
+Window:SelectTab(1)
+
+Fluent:Notify({
+    Title = "Generator Incremental",
+    Content = "The GUI has been loaded.",
+    Duration = 4,
+})
+
+SaveManager:LoadAutoloadConfig()
